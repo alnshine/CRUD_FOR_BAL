@@ -17,7 +17,7 @@ target/
 *.cfg
 
 # Игнорирование файлов окружения
-.env
+*.env
 .env.local
 .env.*.local
 
