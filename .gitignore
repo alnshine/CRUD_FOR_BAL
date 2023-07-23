@@ -1,2 +1,32 @@
+# Игнорирование временных файлов и каталогов
+*.tmp
+*.temp
+*.log
+*.cache
+
+# Игнорирование файлов сборки
+build/
+dist/
+node_modules/
+out/
+target/
+
+# Игнорирование файлов конфигурации
+*.config
+*.conf
+*.cfg
+
+# Игнорирование файлов окружения
 .env
-.idea
+.env.local
+.env.*.local
+
+# Игнорирование файлов настроек редактора
+.vscode/
+.idea/
+*.sublime-*
+
+# Игнорирование файлов зависимостей пакетного менеджера
+yarn.lock
+package-lock.json
+npm-debug.log
