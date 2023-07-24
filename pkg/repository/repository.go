@@ -10,6 +10,9 @@ type Authorization interface {
 	GetUser(username, password string) (CRUD_FOR_BAL.User, error)
 }
 type Vacancy interface {
+	Create(userId int, vac CRUD_FOR_BAL.Vacancy) (int, error)
+	GetAll(userId int) ([]CRUD_FOR_BAL.Vacancy, error)
+	GetById(userId, vacId int) (CRUD_FOR_BAL.Vacancy, error)
 }
 type Repository struct {
 	Authorization
@@ -19,5 +22,6 @@ type Repository struct {
 func NewRepository(db *sqlx.DB) *Repository {
 	return &Repository{
 		Authorization: NewAuthPostgres(db),
+		Vacancy:       NewVacancyPostgres(db),
 	}
 }

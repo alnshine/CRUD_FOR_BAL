@@ -12,8 +12,9 @@ CREATE TABLE vacancies (
                            salary DECIMAL(10, 2)
 );
 
-CREATE TABLE users_list (
-                            id serial not null unique ,
-                            user_id int references users(id) on delete cascade not null,
-                            vacancy_id int references users(id) on delete cascade not null
+CREATE TABLE users_lists
+(
+    id      serial                                           not null unique,
+    user_id int references users (id) on delete cascade      not null,
+    vacancy_id int references vacancy_id (id) on delete cascade not null
 );

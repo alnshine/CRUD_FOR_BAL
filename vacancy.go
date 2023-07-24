@@ -1,11 +1,11 @@
 package CRUD_FOR_BAL
 
 type Vacancy struct {
-	Id          int     `json:"id"`
-	Title       string  `json:"title"`
-	Description string  `json:"description"`
-	Type        string  `json:"type"`
-	Salary      float64 `json:"salary"`
+	Id          int     `json:"id" db:"id"`
+	Title       string  `json:"title" db:"title" binding:"required"`
+	Description string  `json:"description" db:"description"`
+	Type        string  `json:"type" db:"type"`
+	Salary      float64 `json:"salary" db:"salary"`
 }
 
 type UsersList struct {

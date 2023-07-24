@@ -11,6 +11,9 @@ type Authorization interface {
 	ParseToken(token string) (int, error)
 }
 type Vacancy interface {
+	Create(userId int, list CRUD_FOR_BAL.Vacancy) (int, error)
+	GetAll(userId int) ([]CRUD_FOR_BAL.Vacancy, error)
+	GetById(userId, vacId int) (CRUD_FOR_BAL.Vacancy, error)
 }
 type Service struct {
 	Authorization
@@ -20,5 +23,6 @@ type Service struct {
 func NewService(repos *repository.Repository) *Service {
 	return &Service{
 		Authorization: NewAuthService(repos.Authorization),
+		Vacancy:       NewVacancyService(repos.Vacancy),
 	}
 }
