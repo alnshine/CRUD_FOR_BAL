@@ -15,6 +15,17 @@ import (
 	"syscall"
 )
 
+// @title CRUD App
+// @version 1.0
+// @description API Server for CRUD Application
+
+// @host localhost:8000
+// @BasePath /
+
+// @securityDefinitions.apikey ApiKeyAuth
+// @in header
+// @name Authorization
+
 func main() {
 	logrus.SetFormatter(new(logrus.JSONFormatter))
 	if err := initConfig(); err != nil {

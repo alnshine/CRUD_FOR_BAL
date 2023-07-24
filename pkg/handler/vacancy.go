@@ -7,6 +7,19 @@ import (
 	"strconv"
 )
 
+// @Summary Create vacancy
+// @Security ApiKeyAuth
+// @Tags vacancies
+// @Description create vacancy
+// @ID create-list
+// @Accept  json
+// @Produce  json
+// @Param input body CRUD_FOR_BAL.Vacancy true "list info"
+// @Success 200 {integer} integer 1
+// @Failure 400,404 {object} errorResponse
+// @Failure 500 {object} errorResponse
+// @Failure default {object} errorResponse
+// @Router /api/vacancy [post]
 func (h *Handler) createVacancy(c *gin.Context) {
 	userId, err := getUserId(c)
 	if err != nil {
@@ -32,6 +45,18 @@ type getAllListsResponse struct {
 	Data []CRUD_FOR_BAL.Vacancy `json:"data"`
 }
 
+// @Summary Get All Vacancies
+// @Security ApiKeyAuth
+// @Tags vacancies
+// @Description get all vacancies
+// @ID get-all-vacancies
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} getAllListsResponse
+// @Failure 400,404 {object} errorResponse
+// @Failure 500 {object} errorResponse
+// @Failure default {object} errorResponse
+// @Router /api/vacancy [get]
 func (h *Handler) getAllVacancy(c *gin.Context) {
 	userId, err := getUserId(c)
 	if err != nil {
@@ -46,6 +71,19 @@ func (h *Handler) getAllVacancy(c *gin.Context) {
 		Data: vac,
 	})
 }
+
+// @Summary Get Vacancy By Id
+// @Security ApiKeyAuth
+// @Tags vacancies
+// @Description get list by id
+// @ID get-list-by-id
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} CRUD_FOR_BAL.Vacancy
+// @Failure 400,404 {object} errorResponse
+// @Failure 500 {object} errorResponse
+// @Failure default {object} errorResponse
+// @Router /api/vacancy/:id [get]
 func (h *Handler) getVacancyById(c *gin.Context) {
 	userId, err := getUserId(c)
 	if err != nil {
