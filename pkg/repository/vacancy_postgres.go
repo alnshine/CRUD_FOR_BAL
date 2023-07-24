@@ -59,26 +59,37 @@ func (r *VacancyPostgres) Delete(userId, vacId int) error {
 	_, err := r.db.Exec(query, userId, vacId)
 	return err
 }
-func (r *VacancyPostgres) Update(userId, VacId int, input CRUD_FOR_BAL.UpdateVac) error {
+
+func (r *VacancyPostgres) Update(userId, listId int, input CRUD_FOR_BAL.UpdateVac) error {
 	setValues := make([]string, 0)
 	args := make([]interface{}, 0)
-	argId := 1
+	argID := 1
+
 	if input.Title != nil {
-		setValues = append(setValues, fmt.Sprintf("title=$%d", argId))
+		setValues = append(setValues, fmt.Sprintf("title=$%d", argID))
 		args = append(args, *input.Title)
-		argId++
+		argID++
 	}
+
 	if input.Description != nil {
-		setValues = append(setValues, fmt.Sprintf("description=$%d", argId))
+		setValues = append(setValues, fmt.Sprintf("description=$%d", argID))
 		args = append(args, *input.Description)
-		argId++
+		argID++
 	}
+
+	// title=$1
+	// description=$2
+	// title=$1, description=$2
 	setQuery := strings.Join(setValues, ", ")
-	query := fmt.Sprintf("UPDATE %s v SET %s FROM %s users_lists WHERE v.id = users_lists.vacancy_id AND users_lists.vacancy_id=$%d AND users_lists.user_id=$%d",
-		vacanciesTable, setQuery, usersTable, argId, argId+1)
-	args = append(args, VacId, userId)
-	logrus.Debugf("updateQuery %s", query)
-	logrus.Debugf("args: %s", args)
+
+	query := fmt.Sprintf("UPDATE %s v SET %s FROM %s ul WHERE v.id = ul.vacancy_id AND ul.vacancy_id=$%d AND ul.user_id=$%d",
+		vacanciesTable, setQuery, usersListsTable, argID, argID+1)
+
+	args = append(args, listId, userId)
+
+	logrus.Debugf("updateQuery: %s", query)
+	logrus.Debugf("args: %v", args)
+
 	_, err := r.db.Exec(query, args...)
 	return err
 }
