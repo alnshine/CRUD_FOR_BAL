@@ -4,6 +4,8 @@ import (
 	"alnshine/CRUD_FOR_BAL"
 	"fmt"
 	"github.com/jmoiron/sqlx"
+	"github.com/sirupsen/logrus"
+	"strings"
 )
 
 type VacancyPostgres struct {
@@ -50,4 +52,33 @@ func (r *VacancyPostgres) GetById(userId, vacId int) (CRUD_FOR_BAL.Vacancy, erro
 	err := r.db.Get(&vac, query, userId, vacId)
 
 	return vac, err
+}
+func (r *VacancyPostgres) Delete(userId, vacId int) error {
+	query := fmt.Sprintf("DELETE FROM %s v USING %s ul WHERE v.id = ul.vacancy_id AND ul.user_id=$1 AND ul.vacancy_id=$2",
+		vacanciesTable, usersListsTable)
+	_, err := r.db.Exec(query, userId, vacId)
+	return err
+}
+func (r *VacancyPostgres) Update(userId, VacId int, input CRUD_FOR_BAL.UpdateVac) error {
+	setValues := make([]string, 0)
+	args := make([]interface{}, 0)
+	argId := 1
+	if input.Title != nil {
+		setValues = append(setValues, fmt.Sprintf("title=$%d", argId))
+		args = append(args, *input.Title)
+		argId++
+	}
+	if input.Description != nil {
+		setValues = append(setValues, fmt.Sprintf("description=$%d", argId))
+		args = append(args, *input.Description)
+		argId++
+	}
+	setQuery := strings.Join(setValues, ", ")
+	query := fmt.Sprintf("UPDATE %s v SET %s FROM %s users_lists WHERE v.id = users_lists.vacancy_id AND users_lists.vacancy_id=$%d AND users_lists.user_id=$%d",
+		vacanciesTable, setQuery, usersTable, argId, argId+1)
+	args = append(args, VacId, userId)
+	logrus.Debugf("updateQuery %s", query)
+	logrus.Debugf("args: %s", args)
+	_, err := r.db.Exec(query, args...)
+	return err
 }

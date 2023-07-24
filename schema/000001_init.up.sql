@@ -16,5 +16,5 @@ CREATE TABLE users_lists
 (
     id      serial                                           not null unique,
     user_id int references users (id) on delete cascade      not null,
-    vacancy_id int references vacancy_id (id) on delete cascade not null
+    vacancy_id int references vacancies (id) on delete cascade not null
 );

@@ -13,6 +13,8 @@ type Vacancy interface {
 	Create(userId int, vac CRUD_FOR_BAL.Vacancy) (int, error)
 	GetAll(userId int) ([]CRUD_FOR_BAL.Vacancy, error)
 	GetById(userId, vacId int) (CRUD_FOR_BAL.Vacancy, error)
+	Delete(userId, vacId int) error
+	Update(userId, vacId int, input CRUD_FOR_BAL.UpdateVac) error
 }
 type Repository struct {
 	Authorization
